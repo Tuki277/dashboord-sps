@@ -9,26 +9,27 @@
       <CHeaderNavItem class="d-md-down-none mx-2">
         <CHeaderNavLink>
           <CIcon name="cil-bell" />
-          <span class="badge badge-pill badge-danger">4</span>
+          <span class="badge badge-pill badge-danger">{{ countNoti }}</span>
         </CHeaderNavLink>
       </CHeaderNavItem>
     </template>
-
-    <NotiDetail/>
-
+      <NotiDetail/>
   </CDropdown>
 </template>
 
 <script>
-import axios from "axios";
+
 import NotiDetail from './Notidetail'
+import axios from 'axios'
+import io from 'socket.io-client'
 
 export default {
   name: "TheNotification",
   data() {
     return {
-      noti : [],
       itemsCount: 42,
+      countNoti : 0,
+        socket: io("http://localhost:3003")
     };
   },
   components : {
@@ -36,10 +37,20 @@ export default {
   },
   created () {
     axios.get("http://localhost:3000/addnoti").then(res => {
-        console.log(res.data.data)
-        this.noti = res.data.data
-    })
-  }
+            console.log(res.data.data.length)
+            this.countNoti = res.data.data.length
+            console.log('axios ========== ', this.countNoti)
+    }),
+    this.socket.on('data', (data) => {
+            console.log(data.message)
+            if ( data.message === "success") {
+                axios.get("http://localhost:3000/addnoti").then(res => {
+                    this.noti = res.data.data
+                    this.countNoti = res.data.data.length
+                })
+            }
+        })
+    }
 };
 </script>
 
