@@ -109,6 +109,10 @@ export default [
           {
             name: 'Normalform',
             to: '/base/normalform'
+          },
+          {
+            name: 'Notiform',
+            to: '/base/notiform'
           }
         ]
       },

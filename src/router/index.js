@@ -32,6 +32,7 @@ const ProgressBars = () => import('@/views/base/ProgressBars')
 const Tooltips = () => import('@/views/base/Tooltips')
 const Helloworld = () => import ('@/views/base/Helloworld')
 const Normalform = () => import ('@/views/base/Normalform')
+const Notiform = () => import ('@/views/base/Notiform')
 
 // Views - Buttons
 const StandardButtons = () => import('@/views/buttons/StandardButtons')
@@ -234,6 +235,11 @@ function configRoutes () {
               path: 'normalform',
               name: 'normalform',
               component: Normalform
+            },
+            {
+              path: 'notiform',
+              name: 'notiform',
+              component: Notiform
             }
           ]
         },
