@@ -42,15 +42,17 @@ export default {
             console.log('axios ========== ', this.countNoti)
     }),
     this.socket.on('data', (data) => {
-            console.log(data.message)
-            if ( data.message === "success") {
-                axios.get("http://localhost:3000/addnoti").then(res => {
-                    this.noti = res.data.data
-                    this.countNoti = res.data.data.length
-                })
-            }
-        })
-    }
+      const id = JSON.parse(localStorage.getItem('id'))
+      axios.get(`http://localhost:3000/getuserbyid/${id}`).then((res) => {
+        if ( res.data.data[0].isActive === 1 && data.message === 'success') {
+          axios.get("http://localhost:3000/addnoti").then(res => {
+              this.noti = res.data.data
+              this.countNoti = res.data.data.length
+          })
+        }
+      })
+    })
+  }
 };
 </script>
 

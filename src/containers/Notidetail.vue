@@ -26,19 +26,21 @@ export default {
   components: {
     Notitab,
   },
-  created() {
+  created() { 
     axios.get("http://localhost:3000/addnoti").then((res) => {
       this.noti = res.data.data;
       this.count = res.data.data.length;
     }),
     this.socket.on('data', data => {
-      console.log({ data })
-      if ( data.message === 'success') {
-        axios.get("http://localhost:3000/addnoti").then((res) => {
-          this.noti = res.data.data;
-          this.count = res.data.data.length;
-        })
-      }
+      const id = JSON.parse(localStorage.getItem('id'))
+      axios.get(`http://localhost:3000/getuserbyid/${id}`).then((res) => {
+        if(res.data.data[0].isActive === 1 && data.message === 'success') {
+          axios.get("http://localhost:3000/addnoti").then((res) => {
+            this.noti = res.data.data;
+            this.count = res.data.data.length;
+          })
+        }
+      })
     })
   },
   data() {
