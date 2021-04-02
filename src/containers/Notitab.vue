@@ -1,6 +1,6 @@
 <template>
   <a class="dropdown-item" href="#">
-    <div class="message">
+    <div class="message overflow">
       <div class="py-3 mfe-3 float-left">
         <div class="c-avatar">
           <img
@@ -15,7 +15,10 @@
         ><small class="text-muted float-right mt-1">Just now</small>
       </div>
       <div class="text-truncate font-weight-bold">
-        <span class="text-danger">!</span> {{ noti.title }}
+        <span class="text-danger">!</span> 
+        <span>
+          {{ noti.title }}
+        </span>
       </div>
       <div class="small text-muted text-truncate">
         {{ noti.content }}
@@ -32,8 +35,9 @@ export default {
 
 <style>
 .overflow {
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  width: 70%;
+  width: 400px;
 }
 </style>

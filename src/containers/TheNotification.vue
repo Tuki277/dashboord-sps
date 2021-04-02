@@ -9,11 +9,22 @@
       <CHeaderNavItem class="d-md-down-none mx-2">
         <CHeaderNavLink>
           <CIcon name="cil-bell" />
-          <span class="badge badge-pill badge-danger">{{ countNoti }}</span>
+            <div v-if=" countNoti !== 0 ">
+              <span
+                class="badge badge-pill badge-danger"
+                >
+                {{ countNoti }}
+              </span>
+            </div>
+            <div v-if=" countNoti === 0 ">
+              
+            </div>
         </CHeaderNavLink>
       </CHeaderNavItem>
     </template>
-      <NotiDetail/>
+      <div class="w">
+        <NotiDetail/>
+      </div>
   </CDropdown>
 </template>
 
@@ -37,9 +48,7 @@ export default {
   },
   created () {
     axios.get("http://localhost:3000/addnoti").then(res => {
-            console.log(res.data.data.length)
-            this.countNoti = res.data.data.length
-            console.log('axios ========== ', this.countNoti)
+      this.countNoti = res.data.data.length
     }),
     this.socket.on('data', (data) => {
       const id = JSON.parse(localStorage.getItem('id'))
@@ -60,4 +69,5 @@ export default {
 .c-icon {
   margin-right: 0.3rem;
 }
+
 </style>
