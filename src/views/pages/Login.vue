@@ -6,12 +6,13 @@
           <CCardGroup>
             <CCard class="p-4">
               <CCardBody>
-                <CForm>
+                <CForm @submit.prevent="handleSubmit">
                   <h1>Login</h1>
                   <p class="text-muted">Sign In to your account</p>
                   <CInput
                     placeholder="Username"
                     autocomplete="username email"
+                    v-model="username"
                   >
                     <template #prepend-content><CIcon name="cil-user"/></template>
                   </CInput>
@@ -19,12 +20,13 @@
                     placeholder="Password"
                     type="password"
                     autocomplete="curent-password"
+                    v-model="password"
                   >
                     <template #prepend-content><CIcon name="cil-lock-locked"/></template>
                   </CInput>
                   <CRow>
                     <CCol col="6" class="text-left">
-                      <CButton color="primary" class="px-4">Login</CButton>
+                      <CButton type="submit" color="primary" class="px-4">Login</CButton>
                     </CCol>
                     <CCol col="6" class="text-right">
                       <CButton color="link" class="px-0">Forgot password?</CButton>
@@ -60,7 +62,34 @@
 </template>
 
 <script>
+
+import axios from 'axios'
+
 export default {
-  name: 'Login'
+  name: 'Login',
+  data () {
+    return {
+      username : '',
+      password : ''
+    }
+  },
+  methods: {
+        handleSubmit () {
+            this.submitted = false
+            axios.post('http://localhost:3000/getlogin', {
+              username : this.username,
+              password: this.password
+            }).then((res) => {
+              if (res.data.data === 'false') {
+                alert("login fail")
+              } else {
+                localStorage.setItem('Key', 'login done')
+                this.$router.push('/')
+              }
+            }).catch((err) => {
+              console.log({ err })
+            })
+        }
+    }
 }
 </script>

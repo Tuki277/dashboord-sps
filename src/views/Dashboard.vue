@@ -528,6 +528,12 @@ export default {
       ]
     }
   },
+  created () {
+    console.log(localStorage.getItem('Key'))
+    if (localStorage.getItem('Key') === null) {
+      this.$router.push('/pages/login')
+    }
+  },
   methods: {
     color (value) {
       let $color
