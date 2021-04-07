@@ -80,11 +80,11 @@ export default {
               username : this.username,
               password: this.password
             }).then((res) => {
-              if (res.data.data === 'false') {
-                alert("login fail")
-              } else {
-                localStorage.setItem('Key', 'login done')
+              if (res) {
+                localStorage.setItem('Token', res.data.token)
                 this.$router.push('/')
+              } else {
+                alert("login fail")
               }
             }).catch((err) => {
               console.log({ err })

@@ -529,8 +529,8 @@ export default {
     }
   },
   created () {
-    console.log(localStorage.getItem('Key'))
-    if (localStorage.getItem('Key') === null) {
+    console.log(localStorage.getItem('Token'))
+    if (localStorage.getItem('Token') === null) {
       this.$router.push('/pages/login')
     }
   },
