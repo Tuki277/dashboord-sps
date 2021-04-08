@@ -59,8 +59,9 @@
     <CDropdownItem>
       <CIcon name="cil-shield-alt" /> Lock Account
     </CDropdownItem>
-    <CDropdownItem>
-      <CIcon name="cil-lock-locked" /> Logout
+    <CDropdownItem v-on:click="logout">
+      <CIcon name="cil-lock-locked"/>
+        Logout
     </CDropdownItem>
   </CDropdown>
 </template>
@@ -71,6 +72,15 @@ export default {
   data () {
     return { 
       itemsCount: 42
+    }
+  },
+  methods: {
+    logout () {
+      if(confirm('Ban chac chan muon thoat ? ')) {
+        localStorage.removeItem('id')
+        localStorage.removeItem('Token')
+        this.$router.push('/pages/login')
+      }
     }
   }
 }

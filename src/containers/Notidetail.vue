@@ -27,19 +27,26 @@ export default {
     Notitab,
   },
   created() { 
-    axios.get("http://localhost:3000/addnoti").then((res) => {
+    //auth token
+    const tokenKey = localStorage.getItem('Token')
+    let token = "Bearer " + tokenKey
+    console.log('token == ', token)
+    let config = {
+      headers: {
+        Authorization: token
+      }
+    }
+    // =========================
+    const id = localStorage.getItem('id')
+    axios.get(`http://localhost:3000/getnotibyuser/${id}`, config).then((res) => {
       this.noti = res.data.data;
       this.count = res.data.data.length;
     }),
     this.socket.on('data', data => {
-      const id = JSON.parse(localStorage.getItem('id'))
-      axios.get(`http://localhost:3000/getuserbyid/${id}`).then((res) => {
-        if(res.data.data[0].isActive === 1 && data.message === 'success') {
-          axios.get("http://localhost:3000/addnoti").then((res) => {
-            this.noti = res.data.data;
-            this.count = res.data.data.length;
-          })
-        }
+      const id = localStorage.getItem('id')
+      axios.get(`http://localhost:3000/getnotibyuser/${id}`, config).then((res) => {
+        this.noti = res.data.data;
+        this.count = res.data.data.length;
       })
     })
   },
@@ -47,9 +54,10 @@ export default {
     return {
       noti: [],
       count: 0,
+      token: null,
       socket: io("http://localhost:3003")
     };
-  },
+  }
 };
 </script>
 
