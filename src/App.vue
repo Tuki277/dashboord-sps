@@ -15,6 +15,7 @@ export default {
   },
   created () {
     this.socket.on('update', data => {
+      console.log(data);
       if (data.id === localStorage.getItem('id')) {
         if (data.message === 'updated') {
           this.logout()
