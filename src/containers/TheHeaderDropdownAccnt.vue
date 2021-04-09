@@ -16,7 +16,7 @@
       </CHeaderNavLink>
     </template>
     <CDropdownHeader tag="div" class="text-center" color="light">
-      <strong>Account</strong>
+      <strong>{{ username }}</strong>
     </CDropdownHeader>
     <CDropdownItem>
       <CIcon name="cil-bell"/> Updates
@@ -71,8 +71,13 @@ export default {
   name: 'TheHeaderDropdownAccnt',
   data () {
     return { 
-      itemsCount: 42
+      itemsCount: 42,
+      username : ''
     }
+  },
+  created() {
+    const username = localStorage.getItem('username')
+    this.username = username
   },
   methods: {
     logout () {
