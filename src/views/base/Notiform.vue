@@ -52,21 +52,25 @@ export default {
     name: 'Normalform',
     data () {
         return {
-            selectOptions: [{}],
+            selectOptions: [],
             selectOptions_id : null,
             isActive: 0,
             name: '',
             title: '',
-            content: ''
+            content: '',
+            token: ''
         }
     },
     created () {
-        axios.get("http://localhost:3000/userstatus").then(res => {
-            console.log(res.data.data.length)
-            for (var i = 0; i<res.data.data.length; i++) {
-                this.selectOptions.push(res.data.data[i].id)
+        axios.get("http://localhost:3000/getall").then(res => {
+            if ( res.data.data.length > 0) {
+                for ( var i = 0; i < res.data.data.length; i++) {
+                    this.selectOptions.push({
+                        value:  res.data.data[i].id,
+                        label: res.data.data[i].account
+                    })
+                }
             }
-            console.log(this.selectOptions)
         }).catch(err => {
             console.log(err)
         }),
@@ -75,14 +79,18 @@ export default {
     methods: {
         handleSubmit () {
             this.submitted = false
-            console.log(this.selectOptions_id)
-            localStorage.setItem("id", JSON.stringify(this.selectOptions_id))
+            let token = "Bearer " + localStorage.getItem('Token')
+            let config = {
+                headers: {
+                    Authorization: token
+                }
+            }
             axios.post("http://localhost:3000/addnoti", {
                 name : this.name,
                 title : this.title,
                 content : this.content,
-                selectOptions_id : this.selectOptions_id
-            }).then(res => {
+                id_user : this.selectOptions_id
+            }, config).then(res => {
                 this.$router.push('/')
             }).catch(err => {
                 console.log(err)
